@@ -21,10 +21,6 @@ def import_pandas_into_module_namespace(
         print("Pandas backend: pure Pandas")
         import pandas as pd
     else:
-        if num_threads:
-            os.environ["MODIN_CPUS"] = str(num_threads)
-        elif num_threads is None and os.environ.get("MODIN_CPUS", None) is not None:
-            num_threads = int(os.environ["MODIN_CPUS"])
         if mode == "Modin_on_ray":
             import ray
             from modin.core.execution.utils import set_env

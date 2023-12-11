@@ -10,6 +10,10 @@ from timedf.backend import Backend
 def legacy_get_backend_params(args):
     """Returns backend_name and backend_params in new format."""
     backend = args.backend
+    if num_threads:
+        os.environ["MODIN_CPUS"] = str(num_threads)
+    elif num_threads is None and os.environ.get("MODIN_CPUS", None) is not None:
+        num_threads = int(os.environ["MODIN_CPUS"])
     # Old system just passed pandas mode as backend, so we fix that
     if backend.startswith("Modin") or backend == "Pandas":
         pandas_mode = str(backend)
